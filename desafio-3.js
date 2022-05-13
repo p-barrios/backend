@@ -1,12 +1,12 @@
+/**
+ * Codigo necesario para el desafio
+ */
 const fs = require('fs')
-
 class Contenedor {
-
     constructor(nombre) {
         this.nombre = nombre
         this.id = 1
     }
-
     async save(product){
         product['id'] = this.id
         let res = this.id
@@ -20,7 +20,6 @@ class Contenedor {
             console.log('Error in method save() ', e)
         }
     }
-
     async getById(number){
         try {
             let content = JSON.parse(await fs.promises.readFile(this.nombre))
@@ -34,7 +33,6 @@ class Contenedor {
             console.log('Error in method getById() ', e)
         }
     }
-
     async getAll() {
         try {
             let content = JSON.parse(await fs.promises.readFile(this.nombre))
@@ -44,7 +42,6 @@ class Contenedor {
             return []
         }
     }
-
     async deleteById(number){
         try {
             let content = JSON.parse(await fs.promises.readFile(this.nombre))
@@ -54,7 +51,6 @@ class Contenedor {
             console.log('Error in method deleteById() ', e)
         }
     }
-
     async deleteAll(){
         try {
             let newContent = []
@@ -64,26 +60,44 @@ class Contenedor {
         }
     }
 }
-
 const products = new Contenedor('productos.txt')
+let arrProducts = []
 const runProducts = async () => {
     await products.save({title: 'Taza', price: 250,thumbnail:'image1'})
     await products.save({title: 'Vaso', price: 150,thumbnail:'image2'})
     await products.save({title: 'Chop', price: 350,thumbnail:'image3'})
+    arrProducts = await products.getAll()
 }
-
 runProducts()
 
-// Desafio 3
+/**
+ * Desafio-3
+ */
 const express = require('express')
 const app = express()
 
-console.log(arr)
 app.get('/productos', (req, res) => {
-    res.send(`
-        <h1>Prueba</h1>
-        <p>Producto ${arr.nombre}</p>
-    `)
+    let response = `<h1>Productos</h1><hr>`
+    for(let i=0; i<arrProducts.length; i++) {
+        response = response + `
+        <h3>Producto ${arrProducts[i].title}</h3>
+        <p>Precio ${arrProducts[i].price}</p>
+        <p>Imagen: ${arrProducts[i].thumbnail}</p>
+        `
+    }
+    res.send(response)
+})
+
+app.get('/productoRandom', (req, res) => {
+    let pos = Math.floor(Math.random() * arrProducts.length);
+    let response = `
+        <h1>Producto Random (Pos = ${pos})</h1>
+        <hr>
+        <h3>Producto ${arrProducts[pos].title}</h3>
+        <p>Precio ${arrProducts[pos].price}</p>
+        <p>Imagen: ${arrProducts[pos].thumbnail}</p>
+    `
+    res.send(response)
 })
 
 app.listen(8080, () => {
