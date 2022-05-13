@@ -66,17 +66,24 @@ class Contenedor {
 }
 
 const products = new Contenedor('productos.txt')
-const runContenedor = () => {
-    products.save({})
+const runProducts = async () => {
+    await products.save({title: 'Taza', price: 250,thumbnail:'image1'})
+    await products.save({title: 'Vaso', price: 150,thumbnail:'image2'})
+    await products.save({title: 'Chop', price: 350,thumbnail:'image3'})
 }
 
-// Desafio 3
+runProducts()
 
+// Desafio 3
 const express = require('express')
 const app = express()
 
-app.get('/productos', (res) => {
-    res.send('pong')
+console.log(arr)
+app.get('/productos', (req, res) => {
+    res.send(`
+        <h1>Prueba</h1>
+        <p>Producto ${arr.nombre}</p>
+    `)
 })
 
 app.listen(8080, () => {
