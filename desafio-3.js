@@ -65,34 +65,20 @@ class Contenedor {
     }
 }
 
-const run = async () => {
-    const products = new Contenedor('productos.txt')
-    console.log(await products.getAll());
-    let save1 = await products.save({title: 'Taza', price: 250,thumbnail:'image'})
-    console.log('Se guardo el producto ', save1)
-    console.log(await products.getAll());
-
-    let save2 = await products.save({title: 'Taza', price: 250,thumbnail:'image'})
-    console.log('Se guardo el producto ', save2)
-    console.log(await products.getAll());
-
-    let save3 = await products.save({title: 'Taza', price: 250,thumbnail:'image'})
-    console.log('Se guardo el producto ', save3)
-    console.log(await products.getAll());
-
-    let save4 = await products.save({title: 'Taza', price: 250,thumbnail:'image'})
-    console.log('Se guardo el producto ', save4)
-    console.log(await products.getAll());
-
-    console.log('La busqueda con el id 2', await products.getById(2));
-
-    console.log('Elimino el objeto con id 3')
-    await products.deleteById(3)
-    console.log(await products.getAll());
-
-    console.log('Elimino todos los objetos')
-    await products.deleteAll()
-    console.log(await products.getAll());
+const products = new Contenedor('productos.txt')
+const runContenedor = () => {
+    products.save({})
 }
 
-run()
+// Desafio 3
+
+const express = require('express')
+const app = express()
+
+app.get('/productos', (res) => {
+    res.send('pong')
+})
+
+app.listen(8080, () => {
+    console.log('Server run in port 8080!')
+})
